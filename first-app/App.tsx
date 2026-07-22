@@ -6,9 +6,9 @@ export default function App() {
     <View style={styles.container}>
       <Text>Welcome back</Text>
       <Text>Enter your name:</Text>
-      <TextInput placeholder="June"/>
+      <TextInput placeholder="Sam"/>
       <Text>Enter your surname:</Text>
-      <TextInput placeholder="Doe"/>
+      <TextInput placeholder="Richards"/>
 
       <Button title= "Add user"/>
       <StatusBar style="auto" />
@@ -19,7 +19,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#79bddd',
     alignItems: 'center',
     justifyContent: 'center',
   },
