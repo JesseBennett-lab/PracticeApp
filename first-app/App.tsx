@@ -9,7 +9,8 @@ export default function App() {
 
 
      <Text style={styles.welcomeText}>Welcome to my app</Text>
-     <Image  style={styles.logo} source={require('./images/dogimage.jpg')}/>
+     <Image  style={styles.logo} 
+     source={require('./images/dogimage.jpg')}/>
 
      
       <Text style={styles.headingText}>Enter your name</Text>
@@ -47,6 +48,10 @@ logo:{
   alignSelf: 'center',
   
 },
+inputFlex:{
+  flexDirection:'row',
+  marginTop:20,
+}
 
 });
 
