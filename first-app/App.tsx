@@ -33,20 +33,25 @@ console.log("App works!");
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
 
+     <Text style={styles.headingText}>Enter your name</Text>
+     <TextInput  style={styles.inputBoxTxt} 
+     placeholder="Sam"
+     onChangeText={newText => setName(newText)}
+     autoCapitalize="words"
+     autoComplete="name"
+     keyboardType="default"/>
+    <Text style={styles.headingText}>Enter your surname</Text>
+
+    <TextInput  style={styles.inputBoxTxt2}
+    placeholder="Richards"
+    onChangeText={newText => setSurname(newText)}
+    autoCapitalize="words"
+    autoComplete="name-family"
+    keyboardType="default"/>
      
-      <Text style={styles.headingText}>Enter your name</Text>
-      <TextInput  style={styles.inputBoxTxt} 
-       placeholder="Sam"
-       onChangeText={newText => setName(newText)}/>
-      <Text style={styles.headingText}>Enter your surname</Text>
-
-      <TextInput  style={styles.inputBoxTxt2}
-       placeholder="Richards"
-       onChangeText={newText => setSurname(newText)}/>
-
-      <Button title= "Add user"
-         onPress={() => {
-         console.log("Name: " + Name +
+   <Button title= "Add user"
+     onPress={() => {
+      console.log("Name: " + Name +
                      "Surname: " + Surname ) 
          }}
       />
