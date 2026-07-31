@@ -98,7 +98,7 @@ inputBoxTxt: {
 inputBoxTxt2: {
   borderBottomWidth:1,
   fontSize:20,
-}
+},
 
 });
 
