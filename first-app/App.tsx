@@ -3,10 +3,9 @@ import { StyleSheet, Text, View , TextInput, Button, Image } from 'react-native'
 import {useState} from 'react' ;
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 
-
-export default function App() {
 
   type RootStackParamList = {
     Home: undefined;
@@ -25,7 +24,9 @@ export default function App() {
  type ViewDetailsProps = NativeStackScreenProps<
  RootStackParamList, 
  'View'>;
- 
+
+ export default function App() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -38,7 +39,7 @@ export default function App() {
   );
 }
 
-function MainScreen({navigation}){
+function MainScreen({ navigation }: MainScreenProps) {
 
 const[Name, setName] = useState('');
 const[Surname, setSurname] = useState('');
@@ -49,7 +50,7 @@ console.log("App works!");
   return(
   <View>
 
-     <Text style={styles.welcomeText}>Welcome to my app</Text>
+     <Text style={styles.welcomeText}>Welcome to my app!</Text>
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
 
@@ -84,14 +85,16 @@ console.log("App works!");
     </View>
   )
 }
-function ViewDetails({navigation, route}){
-  const {NameGet} = route.params.NameSend;
-  const {SurnameGet} = route.params.SurnameSend;
-  return(
-    <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+function ViewDetails({ navigation, route }: ViewDetailsProps) {
+
+  const NameGet = route.params.NameSend;
+  const SurnameGet = route.params.SurnameSend;
+
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Name: {NameGet} Surname: {SurnameGet}</Text>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
