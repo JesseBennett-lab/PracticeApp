@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , TextInput, Button, Image } from 'react-native';
+import { StyleSheet, Text, View , TextInput, Button, Image, SafeAreaView, ScrollView } from 'react-native';
 import {useState} from 'react' ;
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -49,7 +49,8 @@ console.log("App works!");
 
   return(
   <View>
-
+     <SafeAreaView/>
+     <ScrollView>
      <Text style={styles.welcomeText}>Welcome to my app!</Text>
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
@@ -81,6 +82,8 @@ console.log("App works!");
       />
 
       <StatusBar style="auto" />
+      </ScrollView>
+      <SafeAreaView/>
     
     </View>
   )
@@ -95,6 +98,21 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
       <Text>Name: {NameGet} Surname: {SurnameGet}</Text>
     </View>
   );
+}
+
+const fadeInView = (props) => {
+  const [fadeAnim] = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 4000,
+        useNativeDriver: true
+      }
+    ).start();
+  }
 }
 
 const styles = StyleSheet.create({
