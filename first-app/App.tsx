@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   headingText: {
     paddingTop:50,
     color: 'pink',
+    
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'auto',
