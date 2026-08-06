@@ -43,7 +43,7 @@ function MainScreen({ navigation }: MainScreenProps) {
 
 const[Name, setName] = useState('');
 const[Surname, setSurname] = useState('');
-const[Error, setError] = useState('');
+const[Error, setError] = useState(false);
 
 console.log("App works!");
 
@@ -56,7 +56,7 @@ console.log("App works!");
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
    <FadeInView> 
-     <Text style={styles.redTxt}>{Error}</Text>
+     <Text style={styles.redTxt}>{Error?"Please enter your info":""}</Text>
      <Text style={styles.headingText}>Enter your name</Text>
      <TextInput  style={styles.inputBoxTxt} 
      placeholder="Sam"
@@ -68,7 +68,7 @@ console.log("App works!");
 
     <TextInput  style={styles.inputBoxTxt2}
     placeholder="Richards"
-    onChangeText={newText => setSurname(newText)}
+    onChangeText={newText => setSurname(newText)} 
     autoCapitalize="words"
     autoComplete="name-family"
     keyboardType="default"/>
@@ -76,7 +76,7 @@ console.log("App works!");
 
    <Button title= "Add user"
      onPress={() => {
-      if (isEmpty(Name)==false || isEmpty(Surname)==false) {
+      if (isEmpty(Name)==false && isEmpty(Surname)==false) {
       navigation.navigate('View',{
         NameSend: Name,
         SurnameSend: Surname
@@ -187,9 +187,12 @@ inputBoxTxt2: {
 redTxt:{
   color:'red',
   fontWeight:'bold',
-  fontSize:20,
+  fontSize:20, 
   textAlign:'center',
 
-}}
-);
+},
+blank:(
+
+)
+});
 
