@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , TextInput, Button, Image, SafeAreaView, ScrollView } from 'react-native';
-import {useState} from 'react' ;
+import { StyleSheet, Text, View , TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp } from 'react-native';
+import {useState, useRef, useEffect,ReactNode} from 'react' ;
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -43,6 +43,7 @@ function MainScreen({ navigation }: MainScreenProps) {
 
 const[Name, setName] = useState('');
 const[Surname, setSurname] = useState('');
+const[Error, setError] = useState('');
 
 console.log("App works!");
 
@@ -54,7 +55,7 @@ console.log("App works!");
      <Text style={styles.welcomeText}>Welcome to my app!</Text>
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
-
+   <FadeInView> 
      <Text style={styles.headingText}>Enter your name</Text>
      <TextInput  style={styles.inputBoxTxt} 
      placeholder="Sam"
@@ -70,7 +71,8 @@ console.log("App works!");
     autoCapitalize="words"
     autoComplete="name-family"
     keyboardType="default"/>
-     
+   </FadeInView>
+
    <Button title= "Add user"
      onPress={() => {
       navigation.navigate('View',{
@@ -100,8 +102,12 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
   );
 }
 
-const fadeInView = (props) => {
-  const [fadeAnim] = useRef(new Animated.Value(0)).current
+interface FadeInViewProps {
+  style?: StyleProp<ViewStyle>;
+  children: ReactNode;
+}
+const FadeInView = ({children, style}: FadeInViewProps) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
     Animated.timing(
@@ -112,7 +118,19 @@ const fadeInView = (props) => {
         useNativeDriver: true
       }
     ).start();
-  }
+  }, [fadeAnim])
+
+return(
+  <Animated.View
+    style={{
+      ...(style as object),
+      opacity: fadeAnim,
+    }}
+  >
+    {children}
+  </Animated.View>
+
+)
 }
 
 const styles = StyleSheet.create({
@@ -152,6 +170,11 @@ inputBoxTxt2: {
   borderBottomWidth:1,
   fontSize:20,
 },
+redTxt:{
+  color:'red',
+  fontWeight:'bold',
+  fontSize:30,
+  textAlign:'center',
 
 });
 
