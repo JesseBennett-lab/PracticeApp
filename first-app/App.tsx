@@ -56,6 +56,7 @@ console.log("App works!");
      <Image  style={styles.logo} 
      source={require('./images/dogimage.jpg')}/>
    <FadeInView> 
+     <Text style={styles.redTxt}>{Error}</Text>
      <Text style={styles.headingText}>Enter your name</Text>
      <TextInput  style={styles.inputBoxTxt} 
      placeholder="Sam"
@@ -75,13 +76,16 @@ console.log("App works!");
 
    <Button title= "Add user"
      onPress={() => {
+      if (isEmpty(Name)==false || isEmpty(Surname)==false) {
       navigation.navigate('View',{
         NameSend: Name,
         SurnameSend: Surname
       });
-       
-         }}
-      />
+      setError('');
+    } else {
+      setError('Fields are empty!');
+    }
+         }}/>
 
       <StatusBar style="auto" />
       </ScrollView>
@@ -102,6 +106,15 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
   );
 }
 
+function isEmpty(value:any){
+  return(
+  (value === null) ||
+    (value.hasOwnProperty('length') && value.length === 0) ||
+    (value.constructor === Object && Object.keys(value).length === 0)
+
+  
+  )
+};
 interface FadeInViewProps {
   style?: StyleProp<ViewStyle>;
   children: ReactNode;
@@ -176,5 +189,6 @@ redTxt:{
   fontSize:30,
   textAlign:'center',
 
-});
+}}
+);
 
