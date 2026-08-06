@@ -81,9 +81,9 @@ console.log("App works!");
         NameSend: Name,
         SurnameSend: Surname
       });
-      setError('');
+      setError(false);
     } else {
-      setError('Fields are empty!');
+      setError(true);
     }
          }}/>
 
@@ -191,8 +191,6 @@ redTxt:{
   textAlign:'center',
 
 },
-blank:(
 
-)
+
 });
-
