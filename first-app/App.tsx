@@ -4,6 +4,7 @@ import {useState, useRef, useEffect,ReactNode} from 'react' ;
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {RadioButton} from 'react-native-paper';
 
 
 
@@ -44,6 +45,7 @@ function MainScreen({ navigation }: MainScreenProps) {
 const[Name, setName] = useState('');
 const[Surname, setSurname] = useState('');
 const[Error, setError] = useState(false);
+const[seletedValue, setSelectedValue] = useState('0');
 
 console.log("App works!");
 
@@ -101,8 +103,26 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Name: {NameGet} Surname: {SurnameGet}</Text>
-    </View>
+      <View style={{ flex: 0, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Welcome {NameGet} {SurnameGet}!</Text>
+        <Text style={{ color: 'pink', fontWeight: 'bold', fontSize: 20 }}>Please select an option</Text>
+      </View>
+
+      <View style={styles.radioContainer}>
+        <View style={styles.radioGroup}>
+          <View style={styles.radioButton}>
+            <RadioButton.Android>   
+              value="1"
+              status={seletedValue === '1' ? 'checked' : 'unchecked'}
+              onPress={() => setSelectedValue('1')}
+            />
+            </RadioButton.Android>
+          
+          </View>
+        </View>
+      </View>
+
+      </View>
   );
 }
 
@@ -191,6 +211,41 @@ redTxt:{
   textAlign:'center',
 
 },
+radioContainer: {
+  flex:0,
+  backgroundColor:'#ff99e6',
+  justifyContent: 'center',
+  alignItems: 'center',
 
+
+},
+radioButton:{
+  flexDirection: 'row',
+  alignItems: 'center', 
+},
+
+radioLabel: {
+  fontSize: 15,
+  marginLeft: 5,
+  color:'#000000'
+
+},
+
+radioGroup: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+  marginTop: 20,
+  borderRadius: 10,
+  backgroundColor:'#ffffff',
+  padding: 15,
+  elevation: 5,
+  shadowColor:'#8585ad' ,
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3,
+
+
+}
 
 });
