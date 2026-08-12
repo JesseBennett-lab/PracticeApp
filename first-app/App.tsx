@@ -100,28 +100,48 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
 
   const NameGet = route.params.NameSend;
   const SurnameGet = route.params.SurnameSend;
+  const [selectedValue, setSelectedValue] = useState('0');
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 0, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Welcome {NameGet} {SurnameGet}!</Text>
-        <Text style={{ color: 'pink', fontWeight: 'bold', fontSize: 20 }}>Please select an option</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 25, paddingBottom: 20 }}>Welcome {NameGet} {SurnameGet}!</Text>
+        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20, paddingBottom: 20 }}>Please select an option</Text>
       </View>
 
       <View style={styles.radioContainer}>
         <View style={styles.radioGroup}>
           <View style={styles.radioButton}>
-            <RadioButton.Android>   
+            <RadioButton.Android
               value="1"
-              status={seletedValue === '1' ? 'checked' : 'unchecked'}
+              status={selectedValue == '1' ? 'checked' : 'unchecked'}
+
               onPress={() => setSelectedValue('1')}
+              color='#ff99e6'
             />
-            </RadioButton.Android>
-          
+            <Text style={styles.radioLabel}>React Native</Text>
+          </View>
+          <View style={styles.radioButton}>
+            <RadioButton.Android
+              value="2"
+              status={selectedValue == '2' ? 'checked' : 'unchecked'}
+
+              onPress={() => setSelectedValue('2')}
+              color='#ff99e6'
+            />
+            <Text style={styles.radioLabel}>Kotlin</Text>
+          </View><View style={styles.radioButton}>
+            <RadioButton.Android
+              value="3"
+              status={selectedValue == '3' ? 'checked' : 'unchecked'}
+
+              onPress={() => setSelectedValue('3')}
+              color='#ff99e6'
+            />
+            <Text style={styles.radioLabel}>HTML and CSS</Text>
           </View>
         </View>
       </View>
-
       </View>
   );
 }
