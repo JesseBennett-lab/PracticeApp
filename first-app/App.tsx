@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp } from 'react-native';
+import { StyleSheet, Text, View , TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp, ImageSourcePropType } from 'react-native';
 import {useState, useRef, useEffect,ReactNode} from 'react' ;
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {RadioButton} from 'react-native-paper';
+
 
 
 
@@ -101,6 +102,11 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
   const NameGet = route.params.NameSend;
   const SurnameGet = route.params.SurnameSend;
   const [selectedValue, setSelectedValue] = useState('0');
+  const[ImageBlock, setImageBlock] = useState<ImageSourcePropType | undefined>(undefined);
+
+  function setImage(arg0: any) {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -142,9 +148,37 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
           </View>
         </View>
       </View>
-      </View>
+     
+      <View style={{flex: 1 }}></View>
+      
+       <Text style={{ fontWeight: "bold", flex: 0 , paddingTop: 30,
+  justifyContent: 'center', textAlign: 'center', alignItems: 'center'}}>
+Generate Chosen Language Image    
+    </Text> 
+<Button title="Generate"
+  onPress={() => {
+    switch (selectedValue) {
+      case '1':
+        setImageBlock(require('./images/ReactNative.jpg'));
+        break;
+      case '2':
+        setImageBlock(require('./images/kotlin.jpg'));
+        break;
+      case '3':
+        setImageBlock(require('./images/HtmlAndCss.jpg'));
+        break;
+      default:
+        setImageBlock(undefined);
+    }
+  }}
+/>
+ 
+    </View>
+      
   );
 }
+
+
 
 function isEmpty(value:any){
   return(
