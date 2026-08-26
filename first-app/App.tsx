@@ -104,9 +104,7 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
   const [selectedValue, setSelectedValue] = useState('0');
   const[ImageBlock, setImageBlock] = useState<ImageSourcePropType | undefined>(undefined);
 
-  function setImage(arg0: any) {
-    throw new Error('Function not implemented.');
-  }
+  
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -172,7 +170,9 @@ Generate Chosen Language Image
     }
   }}
 />
- 
+<View style={styles.container}>
+  <Image source={ImageBlock} style={styles.viewImage} />
+</View> 
     </View>
       
   );
@@ -300,6 +300,18 @@ radioGroup: {
   shadowRadius: 3,
 
 
-}
+},
+
+container: {
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingTop: 20,
+},
+viewImage: {
+  width: 200,
+  height: 200,
+  resizeMode: 'contain',
+},
 
 });
