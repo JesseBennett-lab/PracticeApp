@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp } from 'react-native';
+import { StyleSheet,Text,View,TextInput, Button,Image,SafeAreaView,ScrollView, Animated,ViewStyle,StyleProp,ImageSourcePropType,} from 'react-native';
 import { useState, useRef, useEffect, ReactNode } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,7 +18,6 @@ type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 type ViewDetailsProps = NativeStackScreenProps<RootStackParamList, 'View'>;
 type ListSkillsProps = NativeStackScreenProps<RootStackParamList, 'ListSkills'>;
 
-// Helpers moved to top level so every screen can see them
 function isEmpty(value: any) {
   return (
     value === null ||
@@ -67,21 +66,20 @@ function MainScreen({ navigation }: MainScreenProps) {
   const [Surname, setSurname] = useState('');
   const [Error, setError] = useState(false);
 
-  console.log("App works!");
-
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <SafeAreaView />
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         <Text style={styles.welcomeText}>Welcome to my app!</Text>
         <Image style={styles.logo} source={require('./images/dogimage.jpg')} />
+        
         <FadeInView>
-          <Text style={styles.redTxt}>{Error ? "Please enter your info" : ""}</Text>
+          <Text style={styles.redTxt}>{Error ? 'Please enter your info' : ''}</Text>
           <Text style={styles.headingText}>Enter your name</Text>
           <TextInput
             style={styles.inputBoxTxt}
             placeholder="Sam"
-            onChangeText={newText => setName(newText)}
+            onChangeText={(newText) => setName(newText)}
             autoCapitalize="words"
             autoComplete="name"
             keyboardType="default"
@@ -90,27 +88,33 @@ function MainScreen({ navigation }: MainScreenProps) {
           <TextInput
             style={styles.inputBoxTxt2}
             placeholder="Richards"
-            onChangeText={newText => setSurname(newText)}
+            onChangeText={(newText) => setSurname(newText)}
             autoCapitalize="words"
             autoComplete="name-family"
             keyboardType="default"
           />
         </FadeInView>
 
-        <Button
-          title="Add user"
-          onPress={() => {
-            if (isEmpty(Name) === false && isEmpty(Surname) === false) {
-              navigation.navigate('View', {
-                NameSend: Name,
-                SurnameSend: Surname,
-              });
-              setError(false);
-            } else {
-              setError(true);
-            }
-          }}
-        />
+        <View style={{ marginTop: 20, gap: 10 }}>
+          <Button
+            title="Add user"
+            onPress={() => {
+              if (!isEmpty(Name) && !isEmpty(Surname)) {
+                navigation.navigate('View', {
+                  NameSend: Name,
+                  SurnameSend: Surname,
+                });
+                setError(false);
+              } else {
+                setError(true);
+              }
+            }}
+          />
+          <Button
+            title="Go to Skills List"
+            onPress={() => navigation.navigate('ListSkills')}
+          />
+        </View>
         <StatusBar style="auto" />
       </ScrollView>
       <SafeAreaView />
@@ -122,15 +126,15 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
   const NameGet = route.params.NameSend;
   const SurnameGet = route.params.SurnameSend;
   const [selectedValue, setSelectedValue] = useState('1');
-  // iSelected drives which image is actually shown; only updates when "Generate" is pressed
   const [iSelected, setIntValue] = useState(1);
 
-  const blockArray = [
-    undefined,
+  // Array storing image sources corresponding to radio values (1, 2, 3)[cite: 22]
+  const [blockArray] = useState<ImageSourcePropType[]>([
+    undefined as unknown as ImageSourcePropType,
     require('./images/reactnative.jpg'),
     require('./images/kotlin.jpg'),
     require('./images/htmlandcss.jpg'),
-  ];
+  ]);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -148,7 +152,7 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
           <View style={styles.radioButton}>
             <RadioButton.Android
               value="1"
-              status={selectedValue == '1' ? 'checked' : 'unchecked'}
+              status={selectedValue === '1' ? 'checked' : 'unchecked'}
               onPress={() => setSelectedValue('1')}
               color="#ff99e6"
             />
@@ -157,7 +161,7 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
           <View style={styles.radioButton}>
             <RadioButton.Android
               value="2"
-              status={selectedValue == '2' ? 'checked' : 'unchecked'}
+              status={selectedValue === '2' ? 'checked' : 'unchecked'}
               onPress={() => setSelectedValue('2')}
               color="#ff99e6"
             />
@@ -166,7 +170,7 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
           <View style={styles.radioButton}>
             <RadioButton.Android
               value="3"
-              status={selectedValue == '3' ? 'checked' : 'unchecked'}
+              status={selectedValue === '3' ? 'checked' : 'unchecked'}
               onPress={() => setSelectedValue('3')}
               color="#ff99e6"
             />
@@ -175,42 +179,43 @@ function ViewDetails({ navigation, route }: ViewDetailsProps) {
         </View>
       </View>
 
-      <View style={{ flex: 1 }}></View>
-
       <Text
         style={{
-          fontWeight: "bold",
-          flex: 0,
+          fontWeight: 'bold',
           paddingTop: 30,
-          justifyContent: 'center',
           textAlign: 'center',
-          alignItems: 'center',
         }}
       >
         Generate Chosen Language Image
       </Text>
+      
       <Button
         title="Generate"
         onPress={() => {
-          setIntValue(Number(selectedValue));
+          setIntValue(Number(selectedValue)); // Cast selection string to number for array index[cite: 22]
         }}
       />
+
       <View style={styles.container}>
         {blockArray[iSelected] && (
           <Image source={blockArray[iSelected]} style={styles.viewImage} />
         )}
       </View>
+
+      <Button
+        title="Manage Skills"
+        onPress={() => navigation.navigate('ListSkills')}
+      />
     </View>
   );
 }
 
-function ListSkills({ navigation, route }: ListSkillsProps) {
+function ListSkills({ navigation }: ListSkillsProps) {
   const [skills, setSkills] = useState<string[]>([]);
-  const [skill, setSkill] = useState(''); 
+  const [skill, setSkill] = useState('');
 
   const renderSkills = () => {
-    const arrOutput=[];
-
+    const arrOutput = [];
     for (let i = 0; i < skills.length; i++) {
       arrOutput.push(
         <Text key={i} style={styles.skillText}>
@@ -219,48 +224,46 @@ function ListSkills({ navigation, route }: ListSkillsProps) {
       );
     }
     return arrOutput;
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <View >
-        <SafeAreaView>
-          <ScrollView>
-            <View style={styles.logo}>
-              <Image style={styles.bannerImg} source={require('./images/banner.jpg')} />
-            </View>
-            {/*Our main heading for the page*/}
-             <Text style={styles.welcomeText}>List Your Skills</Text>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }}>
+          <View style={styles.logo}>
+            <Image style={styles.bannerImg} source={require('./images/banner.jpg')} />
+          </View>
+          
+          <Text style={styles.welcomeText}>List Your Skills</Text>
 
-             <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter your skill"
-                onChangeText={(newText) => setSkill(newText)}
-              />
-              <Button
-                title="Add Skill"
-                onPress={() => {
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter your skill"
+              value={skill}
+              onChangeText={(newText) => setSkill(newText)}
+            />
+            <Button
+              title="Add Skill"
+              onPress={() => {
+                if (skill.trim() !== '') {
                   setSkills([...skills, skill]);
                   setSkill('');
-                }}/>
+                }
+              }}
+            />
+          </View>
 
-             </View>
-                <View style={styles.skillContainer}>
-                  {renderSkills()}
-
-
-                </View>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
+          <View style={styles.skillContainer}>{renderSkills()}</View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   welcomeText: {
-    paddingTop: 60,
+    paddingTop: 20,
     color: 'pink',
     fontWeight: 'bold',
     fontSize: 30,
@@ -268,21 +271,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headingText: {
-    paddingTop: 50,
+    paddingTop: 20,
     color: 'pink',
     fontWeight: 'bold',
     fontSize: 20,
-    textAlign: 'auto',
     backgroundColor: 'white',
   },
   logo: {
     width: 150,
-    height: 250,
+    height: 150,
     alignSelf: 'center',
-  },
-  inputFlex: {
-    flexDirection: 'row',
-    marginTop: 20,
   },
   inputBoxTxt: {
     borderBottomWidth: 1,
@@ -299,7 +297,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   radioContainer: {
-    flex: 0,
     backgroundColor: '#ff99e6',
     justifyContent: 'center',
     alignItems: 'center',
@@ -317,7 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 10,
     backgroundColor: '#ffffff',
     padding: 15,
@@ -331,7 +328,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: 10,
   },
   viewImage: {
     width: 200,
@@ -339,35 +336,38 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   bannerImg: {
-    height: 350,
-    alignContent: 'center',
+    height: 150,
+    width: 150,
+    resizeMode: 'contain',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flex: 1,
+    marginTop: 20,
     marginBottom: 25,
     borderBottomWidth: 1,
     borderBottomColor: '#e280a6',
+    paddingBottom: 5,
   },
   textInput: {
     borderBottomWidth: 1,
     borderBottomColor: '#0c0c0c',
-    width: '70%',
-    marginRight: 7,
+    width: 180,
+    marginRight: 10,
     padding: 5,
   },
-  appContainer: {
-    flex: 1,
-    padding:50,
-    paddingHorizontal: 15,
-
+  skillContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
   skillText: {
     fontSize: 15,
-    marginVertical: 15,
+    marginVertical: 8,
     borderBottomWidth: 1,
-
+    borderBottomColor: '#ccc',
+    paddingBottom: 4,
+    width: 200,
+    textAlign: 'center',
   },
 });
